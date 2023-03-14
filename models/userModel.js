@@ -14,27 +14,16 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  college_name: {
+  userType: {
     type: String,
-  },
-  place: {
-    type: String,
-  },
-  teachers_count: {
-    type: Number,
-  },
-  students_count: {
-    type: Number,
-  },
-  staff_count: {
-    type: Number,
+    required: true,
   },
 });
 
-userSchema.statics.signup = async function (email, password) {
+userSchema.statics.signup = async function (email, password, userType) {
   //validation
 
-  if (!email || !password) {
+  if (!email || !password || !userType) {
     throw Error("All fields must be filled");
   }
 
@@ -55,7 +44,7 @@ userSchema.statics.signup = async function (email, password) {
 
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await this.create({ email, password: hash });
+  const user = await this.create({ email, password: hash, userType });
 
   return user;
 };
