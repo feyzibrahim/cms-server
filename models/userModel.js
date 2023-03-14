@@ -18,9 +18,17 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  collegeId: {
+    type: String,
+  },
 });
 
-userSchema.statics.signup = async function (email, password, userType) {
+userSchema.statics.signup = async function (
+  email,
+  password,
+  userType,
+  collegeId
+) {
   //validation
 
   if (!email || !password || !userType) {
@@ -44,7 +52,12 @@ userSchema.statics.signup = async function (email, password, userType) {
 
   const hash = await bcrypt.hash(password, salt);
 
-  const user = await this.create({ email, password: hash, userType });
+  const user = await this.create({
+    email,
+    password: hash,
+    userType,
+    collegeId,
+  });
 
   return user;
 };
