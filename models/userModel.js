@@ -21,6 +21,9 @@ const userSchema = new Schema({
   collegeId: {
     type: String,
   },
+  dataAccessId: {
+    type: String,
+  },
 });
 
 userSchema.statics.signup = async function (
@@ -57,6 +60,7 @@ userSchema.statics.signup = async function (
     password: hash,
     userType,
     collegeId,
+    dataAccessId,
   });
 
   return user;
