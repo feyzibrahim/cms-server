@@ -30,7 +30,8 @@ userSchema.statics.signup = async function (
   email,
   password,
   userType,
-  collegeId
+  collegeId,
+  dataAccessId
 ) {
   //validation
 
