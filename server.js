@@ -11,6 +11,7 @@ const teacherRoutes = require("./routes/teacher");
 const eventRoutes = require("./routes/events");
 const announcementRoutes = require("./routes/announcements");
 const managementRoutes = require("./routes/management");
+const staffRoutes = require("./routes/staff");
 
 const app = express();
 
@@ -40,6 +41,8 @@ app.use("/api/event", eventRoutes);
 app.use("/api/announcement", announcementRoutes);
 
 app.use("/api/management", managementRoutes);
+
+app.use("/api/staff", staffRoutes);
 
 // connect to db
 
