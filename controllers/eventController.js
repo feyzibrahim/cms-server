@@ -10,6 +10,15 @@ const getEvents = async (req, res) => {
   res.status(200).json(events);
 };
 
+// Get Events for sub users
+
+const getEventsForSubUsers = async (req, res) => {
+  const dataAccessId = req.user.dataAccessId;
+
+  const events = await Event.find({ dataAccessId });
+  res.status(200).json(events);
+};
+
 // Get Single Event
 
 const getEvent = async (req, res) => {
@@ -106,4 +115,5 @@ module.exports = {
   createEvent,
   deleteEvent,
   updateEvent,
+  getEventsForSubUsers,
 };

@@ -6,6 +6,7 @@ const {
   createEvent,
   deleteEvent,
   updateEvent,
+  getEventsForSubUsers,
 } = require("../controllers/eventController");
 
 const requireAuth = require("../middleware/requireAuth");
@@ -23,5 +24,7 @@ router.post("/", createEvent);
 router.delete("/:id", deleteEvent);
 
 router.patch("/:id", updateEvent);
+
+router.get("/fromMob/", getEventsForSubUsers);
 
 module.exports = router;
