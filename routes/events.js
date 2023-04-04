@@ -25,6 +25,6 @@ router.delete("/:id", deleteEvent);
 
 router.patch("/:id", updateEvent);
 
-router.get("/fromMob/", getEventsForSubUsers);
+router.get("/e/search", getEventsForSubUsers);
 
 module.exports = router;
