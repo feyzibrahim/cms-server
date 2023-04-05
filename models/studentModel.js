@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const studentSchema = new Schema(
   {
-    studentName: {
+    student_name: {
       type: String,
       required: true,
     },
@@ -24,18 +24,67 @@ const studentSchema = new Schema(
     },
     department: {
       type: String,
-      required: true,
+    },
+    department_id: {
+      type: String,
+    },
+    year: {
+      type: Number,
     },
     mobileNumber: {
       type: Number,
     },
     dob: {
       type: Date,
-      required: true,
     },
     joiningDate: {
       type: Date,
-      required: true,
+    },
+    qualification: {
+      type: String,
+    },
+    previous_institute: {
+      type: String,
+    },
+    previous_grade: {
+      type: String,
+    },
+    maritalStatus: {
+      type: String,
+    },
+    parents: {
+      father_name: {
+        type: String,
+      },
+      father_contact: {
+        type: Number,
+      },
+      mother_name: {
+        type: String,
+      },
+      mother_contact: {
+        type: Number,
+      },
+    },
+    address: {
+      street: {
+        type: String,
+      },
+      city: {
+        type: String,
+      },
+      state: {
+        type: String,
+      },
+      pin: {
+        type: String,
+      },
+      country: {
+        type: String,
+      },
+    },
+    isActive: {
+      type: Boolean,
     },
     user_id: {
       type: String,
