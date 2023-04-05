@@ -4,8 +4,8 @@ const mongoose = require("mongoose");
 // Get All Event
 
 const getEvents = async (req, res) => {
-  const abc = req.query.q;
-  if (abc === undefined) {
+  const queryFromMob = req.query.q;
+  if (queryFromMob === undefined) {
     const user_id = req.user._id;
 
     const events = await Event.find({ user_id });

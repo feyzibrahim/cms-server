@@ -4,10 +4,20 @@ const mongoose = require("mongoose");
 // Get All Announcement
 
 const getAnnouncements = async (req, res) => {
-  const user_id = req.user._id;
+  const queryFromMob = req.query.q;
+  if (queryFromMob === undefined) {
+    const user_id = req.user._id;
 
-  const announcements = await Announcement.find({ user_id });
-  res.status(200).json(announcements);
+    const announcements = await Announcement.find({ user_id });
+    res.status(200).json(announcements);
+  } else {
+    const query = req.query.q;
+    console.log(query);
+    const announcements = await Announcement.find({
+      user_id: { $regex: query },
+    });
+    res.status(200).json(announcements);
+  }
 };
 
 // Get Single Announcement
