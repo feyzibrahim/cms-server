@@ -79,7 +79,9 @@ const updateDepartment = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "Id is not valid Please chec again" });
+    return res
+      .status(400)
+      .json({ error: "Id is not valid Please check again" });
   }
 
   const department = await Department.findOneAndUpdate(
@@ -97,6 +99,70 @@ const updateDepartment = async (req, res) => {
   res.status(200).json(department);
 };
 
+const getSubjects = async (req, res) => {
+  try {
+    const department = await Department.findById(req.params.id);
+    res.json(department.subjects);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+const createSubject = async (req, res) => {
+  const user_id = req.user._id;
+  const department = await Department.findById(req.params.id);
+  if (!department) {
+    return res.status(400).json({ error: "No such Department" });
+  }
+  const subject = { ...req.body, user_id };
+  try {
+    department.subjects.push(subject);
+    await department.save();
+    res.status(201).json(subject);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const updateSubject = async (req, res) => {
+  try {
+    const department = await Department.findById(req.params.id);
+    const subject = department.subjects.id(req.params.subId);
+    if (!subject) {
+      return res.status(404).json({ message: "Subject not found" });
+    }
+    if (req.body.name) {
+      subject.name = req.body.name;
+    }
+    if (req.body.code) {
+      subject.code = req.body.code;
+    }
+    if (req.body.sem) {
+      subject.sem = req.body.sem;
+    }
+
+    await department.save();
+    res.json(subject);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
+const deleteSubject = async (req, res) => {
+  try {
+    const department = await Department.findById(req.params.id);
+    const subject = department.subjects.id(req.params.subId);
+    if (!subject) {
+      return res.status(404).json({ message: "Subject not found" });
+    }
+    subject.remove();
+    await department.save();
+    res.json({ message: "Subject deleted" });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // Exporting
 
 module.exports = {
@@ -105,4 +171,8 @@ module.exports = {
   createDepartment,
   deleteDepartment,
   updateDepartment,
+  getSubjects,
+  createSubject,
+  updateSubject,
+  deleteSubject,
 };
