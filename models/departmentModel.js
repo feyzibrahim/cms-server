@@ -15,6 +15,9 @@ const subjectSchema = new mongoose.Schema({
   sem: {
     type: Number,
   },
+  year: {
+    type: Number,
+  },
   user_id: {
     type: String,
     required: true,
