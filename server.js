@@ -14,11 +14,21 @@ const managementRoutes = require("./routes/management");
 const staffRoutes = require("./routes/staff");
 const studentRoutes = require("./routes/student");
 
+const cors = require("cors");
+
+const corsOptions = {
+  origin: "*",
+  credentials: true,
+  optionSuccessStatus: 200,
+};
+
 const app = express();
 
 mongoose.set("strictQuery", false);
 
 app.use(express.json());
+
+app.use(cors(corsOptions));
 
 app.use((req, res, next) => {
   console.log(req.path, req.method);
