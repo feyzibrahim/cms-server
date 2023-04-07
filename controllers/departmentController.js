@@ -100,9 +100,14 @@ const updateDepartment = async (req, res) => {
 };
 
 const getSubjects = async (req, res) => {
+  const { year } = req.query;
   try {
     const department = await Department.findById(req.params.id);
-    res.json(department.subjects);
+    let subjects = department.subjects;
+    if (year) {
+      subjects = subjects.filter((subject) => subject.year === parseInt(year));
+    }
+    res.status(200).json(subjects);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -118,7 +123,7 @@ const createSubject = async (req, res) => {
   try {
     department.subjects.push(subject);
     await department.save();
-    res.status(201).json(subject);
+    res.status(200).json(subject);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
