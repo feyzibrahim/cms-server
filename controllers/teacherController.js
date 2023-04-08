@@ -33,37 +33,11 @@ const getTeacher = async (req, res) => {
 // Create new Teacher
 
 const createTeacher = async (req, res) => {
-  const {
-    teacherName,
-    email,
-    password,
-    registrationNumber,
-    gender,
-    designation,
-    department,
-    facultyMobileNumber,
-    dob,
-    joiningDate,
-    subjectsCanTeach,
-    salary,
-  } = req.body;
-
   // add doc to db
   try {
     const user_id = req.user._id;
     const teacher = await Teacher.create({
-      teacherName,
-      email,
-      password,
-      registrationNumber,
-      gender,
-      designation,
-      department,
-      facultyMobileNumber,
-      dob,
-      joiningDate,
-      subjectsCanTeach,
-      salary,
+      ...req.body,
       user_id,
     });
     res.status(200).json(teacher);

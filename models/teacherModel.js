@@ -30,6 +30,10 @@ const teacherSchema = new Schema(
       type: String,
       required: true,
     },
+    departmentId: {
+      type: String,
+      required: true,
+    },
     facultyMobileNumber: {
       type: Number,
     },

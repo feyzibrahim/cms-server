@@ -16,17 +16,32 @@ const loginUser = async (req, res) => {
     const userType = user.userType;
     const collegeId = user.collegeId;
     const dataAccessId = user.dataAccessId;
+    const departmentId = user.departmentId;
 
-    res
-      .status(200)
-      .json({ name, email, token, userType, collegeId, dataAccessId });
+    res.status(200).json({
+      name,
+      email,
+      token,
+      userType,
+      collegeId,
+      dataAccessId,
+      departmentId,
+    });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }
 };
 
 const signupUser = async (req, res) => {
-  const { name, email, password, userType, collegeId, dataAccessId } = req.body;
+  const {
+    name,
+    email,
+    password,
+    userType,
+    collegeId,
+    dataAccessId,
+    departmentId,
+  } = req.body;
 
   try {
     const user = await User.signup(
@@ -35,15 +50,22 @@ const signupUser = async (req, res) => {
       password,
       userType,
       collegeId,
-      dataAccessId
+      dataAccessId,
+      departmentId
     );
 
     //create a token
     const token = createToken(user._id);
 
-    res
-      .status(200)
-      .json({ name, email, token, userType, collegeId, dataAccessId });
+    res.status(200).json({
+      name,
+      email,
+      token,
+      userType,
+      collegeId,
+      dataAccessId,
+      departmentId,
+    });
   } catch (error) {
     return res.status(400).json({ error: error.message });
   }

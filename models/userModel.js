@@ -27,6 +27,9 @@ const userSchema = new Schema({
   dataAccessId: {
     type: String,
   },
+  departmentId: {
+    type: String,
+  },
 });
 
 userSchema.statics.signup = async function (
@@ -35,7 +38,8 @@ userSchema.statics.signup = async function (
   password,
   userType,
   collegeId,
-  dataAccessId
+  dataAccessId,
+  departmentId
 ) {
   //validation
 
@@ -67,6 +71,7 @@ userSchema.statics.signup = async function (
     userType,
     collegeId,
     dataAccessId,
+    departmentId,
   });
 
   return user;
