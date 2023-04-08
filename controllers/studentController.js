@@ -4,22 +4,29 @@ const mongoose = require("mongoose");
 // Get All Student
 
 const getStudents = async (req, res) => {
-  const { departmentId, year, q } = req.query;
+  const { departmentId, year, fromMob } = req.query;
 
-  const students = "";
+  if (fromMob) {
+    const students = await Student.find({
+      user_id: { $regex: fromMob },
+    });
 
-  if (q) {
-    students = await Student.find({ user_id: { $regex: q } });
-  } else if (departmentId && year) {
-    students = await Student.find({
+    res.status(200).json(students);
+    return;
+  }
+
+  if (departmentId && year) {
+    const students = await Student.find({
       department_id: { $regex: departmentId },
       year: { $eq: parseInt(year) },
     });
+
+    res.status(200).json(students);
   } else {
     const user_id = req.user._id;
-    students = await Student.find({ user_id });
+    const students = await Student.find({ user_id });
+    res.status(200).json(students);
   }
-  res.status(200).json(students);
 };
 
 // Get Single Student
