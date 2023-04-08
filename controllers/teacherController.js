@@ -4,10 +4,19 @@ const mongoose = require("mongoose");
 // Get All Teacher
 
 const getTeachers = async (req, res) => {
-  const user_id = req.user._id;
+  const { q, departmentId } = req.query;
+  if (q) {
+    const teachers = await Teacher.find({
+      user_id: { $regex: q },
+      departmentId: { $regex: departmentId },
+    });
+    res.status(200).json(teachers);
+  } else {
+    const user_id = req.user._id;
 
-  const teachers = await Teacher.find({ user_id });
-  res.status(200).json(teachers);
+    const teachers = await Teacher.find({ user_id });
+    res.status(200).json(teachers);
+  }
 };
 
 // Get Single Teacher
