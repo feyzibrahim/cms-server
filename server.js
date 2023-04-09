@@ -14,6 +14,7 @@ const managementRoutes = require("./routes/management");
 const staffRoutes = require("./routes/staff");
 const studentRoutes = require("./routes/student");
 const timetableRoutes = require("./routes/timetable");
+const attendanceRoutes = require("./routes/attendance");
 
 const cors = require("cors");
 
@@ -59,6 +60,8 @@ app.use("/api/staff", staffRoutes);
 app.use("/api/student", studentRoutes);
 
 app.use("/api/timetable", timetableRoutes);
+
+app.use("/api/attendance", attendanceRoutes);
 
 // connect to db
 
