@@ -98,9 +98,29 @@ exports.getAttendanceStatistics = async (req, res) => {
     // Get all attendance records for the specified student and semester
     const attendance = await Attendance.find({ studentId, semester });
 
+    // Group attendance records by date
+    const attendanceByDate = {};
+    attendance.forEach((a) => {
+      const dateStr = a.date.toDateString();
+      if (!attendanceByDate[dateStr]) {
+        attendanceByDate[dateStr] = [];
+      }
+      attendanceByDate[dateStr].push(a);
+    });
+
     // Calculate the total number of working days and the number of days the student was present
-    const workingDays = attendance.length;
-    const presentDays = attendance.filter((a) => a.status === "present").length;
+    let workingDays = 0;
+    let presentDays = 0;
+    for (const dateStr in attendanceByDate) {
+      const dailyAttendance = attendanceByDate[dateStr];
+      const presentInDailyAttendance = dailyAttendance.some(
+        (a) => a.status === "present"
+      );
+      if (presentInDailyAttendance) {
+        presentDays++;
+      }
+      workingDays++;
+    }
 
     res.json({ workingDays, presentDays });
   } catch (err) {

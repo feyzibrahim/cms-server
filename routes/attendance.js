@@ -17,13 +17,10 @@ router.put("/:id", attendanceController.updateAttendance);
 // Delete an attendance record
 router.delete("/:id", attendanceController.deleteAttendance);
 
-router.post(
-  "/attendance/multiple",
-  attendanceController.createMultipleAttendance
-);
+router.post("/multiple", attendanceController.createMultipleAttendance);
 
 router.get(
-  "/attendance/:studentId/:semester/stats",
+  "/:studentId/:semester/stats",
   attendanceController.getAttendanceStatistics
 );
 
