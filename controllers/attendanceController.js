@@ -1,6 +1,5 @@
 const Attendance = require("../models/attendanceModel");
 
-// Get all attendance records
 exports.getAttendance = async (req, res) => {
   try {
     const attendance = await Attendance.find();
@@ -10,7 +9,6 @@ exports.getAttendance = async (req, res) => {
   }
 };
 
-// Get attendance record by ID
 exports.getAttendanceById = async (req, res) => {
   try {
     const attendance = await Attendance.findById(req.params.id);
@@ -23,7 +21,6 @@ exports.getAttendanceById = async (req, res) => {
   }
 };
 
-// Create a new attendance record
 exports.createAttendance = async (req, res) => {
   const attendance = new Attendance({
     studentId: req.body.studentId,
@@ -41,7 +38,6 @@ exports.createAttendance = async (req, res) => {
   }
 };
 
-// Update an attendance record
 exports.updateAttendance = async (req, res) => {
   try {
     const attendance = await Attendance.findById(req.params.id);
@@ -62,7 +58,6 @@ exports.updateAttendance = async (req, res) => {
   }
 };
 
-// Delete an attendance record
 exports.deleteAttendance = async (req, res) => {
   try {
     const attendance = await Attendance.findById(req.params.id);
@@ -77,12 +72,10 @@ exports.deleteAttendance = async (req, res) => {
   }
 };
 
-// Create multiple attendance records
 exports.createMultipleAttendance = async (req, res) => {
   const attendanceArr = req.body;
 
   try {
-    // Use insertMany to create all records at once
     const newAttendance = await Attendance.insertMany(attendanceArr);
     res.status(201).json(newAttendance);
   } catch (err) {
@@ -90,15 +83,12 @@ exports.createMultipleAttendance = async (req, res) => {
   }
 };
 
-// Get attendance statistics for a particular student and semester
 exports.getAttendanceStatistics = async (req, res) => {
   const { studentId, semester } = req.params;
 
   try {
-    // Get all attendance records for the specified student and semester
     const attendance = await Attendance.find({ studentId, semester });
 
-    // Group attendance records by date
     const attendanceByDate = {};
     attendance.forEach((a) => {
       const dateStr = a.date.toDateString();
@@ -108,7 +98,6 @@ exports.getAttendanceStatistics = async (req, res) => {
       attendanceByDate[dateStr].push(a);
     });
 
-    // Calculate the total number of working days and the number of days the student was present
     let workingDays = 0;
     let presentDays = 0;
     for (const dateStr in attendanceByDate) {
@@ -125,5 +114,46 @@ exports.getAttendanceStatistics = async (req, res) => {
     res.json({ workingDays, presentDays });
   } catch (err) {
     res.status(400).json({ message: err.message });
+  }
+};
+
+exports.getDistinctDates = async (req, res) => {
+  try {
+    const { studentId, semester } = req.params;
+
+    // Find all attendance records for the given student and semester
+    const attendanceRecords = await Attendance.find({ studentId, semester });
+
+    // Group attendance records by date and status
+    const attendanceByDateAndStatus = attendanceRecords.reduce(
+      (acc, record) => {
+        const dateStr = record.date.toDateString();
+        if (!acc[dateStr]) {
+          acc[dateStr] = {
+            date: record.date,
+            present: 0,
+            absent: 0,
+            late: 0,
+          };
+        }
+        acc[dateStr][record.status]++;
+        return acc;
+      },
+      {}
+    );
+
+    // Map the grouped attendance records to an array of objects with index, date (as a Unix timestamp), and present periods
+    const dates = Object.values(attendanceByDateAndStatus).map(
+      ({ date, present }, index) => ({
+        index,
+        date: date.getTime(),
+        present,
+      })
+    );
+
+    res.status(200).json(dates);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
 };

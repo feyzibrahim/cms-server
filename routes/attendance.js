@@ -9,7 +9,7 @@ router.get("/", attendanceController.getAttendance);
 router.get("/:id", attendanceController.getAttendanceById);
 
 // Create a new attendance record
-router.post("", attendanceController.createAttendance);
+router.post("/", attendanceController.createAttendance);
 
 // Update an attendance record
 router.put("/:id", attendanceController.updateAttendance);
@@ -22,6 +22,11 @@ router.post("/multiple", attendanceController.createMultipleAttendance);
 router.get(
   "/:studentId/:semester/stats",
   attendanceController.getAttendanceStatistics
+);
+
+router.get(
+  "/:studentId/:semester/dates",
+  attendanceController.getDistinctDates
 );
 
 module.exports = router;
