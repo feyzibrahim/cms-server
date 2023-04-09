@@ -8,7 +8,6 @@ const subjectSchema = new mongoose.Schema({
   },
   code: {
     type: String,
-    unique: true,
   },
   sem: {
     type: Number,
