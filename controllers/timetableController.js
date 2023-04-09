@@ -1,5 +1,24 @@
 const Timetable = require("../models/timetableModel");
 
+// Get complete schema
+exports.getTimetable = async (req, res) => {
+  try {
+    const { departmentId, year } = req.query;
+
+    const timetable = await Timetable.findOne({
+      departmentId: { $regex: departmentId },
+      year: { $eq: parseInt(year) },
+    });
+    if (!timetable) {
+      return res.status(404).json({ message: "Timetable not found" });
+    }
+    return res.json({ timetable });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};
+
 // GET /timetable/:day
 // Retrieves the timetable for a specific day of the week
 exports.getTimetableForDay = async (req, res) => {
@@ -43,7 +62,12 @@ exports.createTimetable = async (req, res) => {
 exports.updateTimetableForDay = async (req, res) => {
   try {
     const { day } = req.params;
-    const timetable = await Timetable.findOne({});
+    const { departmentId, year } = req.query;
+
+    const timetable = await Timetable.findOne({
+      departmentId: { $regex: departmentId },
+      year: { $eq: parseInt(year) },
+    });
     if (!timetable) {
       return res.status(404).json({ error: "Timetable not found" });
     }

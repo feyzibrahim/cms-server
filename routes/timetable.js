@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const timetableController = require("../controllers/timetableController");
 
+router.get("/", timetableController.getTimetable);
+
 // GET /timetable/:day
 router.get("/:day", timetableController.getTimetableForDay);
 
