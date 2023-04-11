@@ -15,6 +15,9 @@ const staffRoutes = require("./routes/staff");
 const studentRoutes = require("./routes/student");
 const timetableRoutes = require("./routes/timetable");
 const attendanceRoutes = require("./routes/attendance");
+const semesterRoutes = require("./routes/semester");
+const subjectRoutes = require("./routes/subjects");
+const assignmentRoutes = require("./routes/assignments");
 
 const cors = require("cors");
 
@@ -62,6 +65,12 @@ app.use("/api/student", studentRoutes);
 app.use("/api/timetable", timetableRoutes);
 
 app.use("/api/attendance", attendanceRoutes);
+
+app.use("/api/semester", semesterRoutes);
+
+app.use("/api/subject", subjectRoutes);
+
+app.use("/api/assignments", assignmentRoutes);
 
 // connect to db
 

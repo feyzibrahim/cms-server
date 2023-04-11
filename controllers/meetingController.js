@@ -78,7 +78,9 @@ const updateMeeting = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
-    return res.status(400).json({ error: "Id is not valid Please chec again" });
+    return res
+      .status(400)
+      .json({ error: "Id is not valid Please check again" });
   }
 
   const meeting = await Meetings.findOneAndUpdate(

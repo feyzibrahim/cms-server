@@ -29,4 +29,9 @@ router.get(
   attendanceController.getDistinctDates
 );
 
+router.get(
+  "/:studentId/:semester/:date",
+  attendanceController.getAttendanceByDate
+);
+
 module.exports = router;
