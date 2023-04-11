@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const assignmentController = require("../controllers/assignmentController");
 
-// Get all assignments
+// Get all assignments in particular Semester
 router.get(
   "/semester/:semesterId",
   assignmentController.getAssignmentsBySemester

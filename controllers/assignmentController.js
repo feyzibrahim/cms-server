@@ -13,12 +13,16 @@ exports.createAssignment = async (req, res) => {
   }
 };
 
-// Get all assignments
+// Get all assignments in a semester
 exports.getAssignmentsBySemester = async (req, res, next) => {
   try {
     const assignments = await Assignment.find({
       semester: req.params.semesterId,
-    });
+    })
+      .populate("subject", "name")
+      .populate("semester")
+      .populate("teacher", "teacherName");
+
     res.json(assignments);
   } catch (error) {
     next(error);
@@ -28,9 +32,8 @@ exports.getAssignmentsBySemester = async (req, res, next) => {
 // Get a single assignment by ID
 exports.getAssignmentById = async (req, res) => {
   try {
-    const assignment = await Assignment.findById(req.params.id)
-      .populate("subject", "name")
-      .populate("teacher", "firstName lastName");
+    const assignment = await Assignment.findById(req.params.id);
+
     if (!assignment) {
       return res
         .status(404)
@@ -120,7 +123,10 @@ exports.getAssignmentsDueSoonInSemester = async (req, res, next) => {
     const assignments = await Assignment.find({
       dueDate: { $gte: today },
       semester: req.params.semesterId,
-    });
+    })
+      .populate("subject", "name")
+      .populate("semester")
+      .populate("teacher", "teacherName");
     res.json(assignments);
   } catch (error) {
     next(error);
