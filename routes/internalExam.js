@@ -9,6 +9,11 @@ router.post("/", internalExamController.addInternalExam);
 router.get("/", internalExamController.getAllInternalExams);
 
 // Get internal marks by student ID and subject ID
-router.get("/:studentId", internalExamController.getInternalExamsByStudent);
+router.get("/:student", internalExamController.getInternalExamsByStudent);
+
+router.get(
+  "/teacher/:teacher",
+  internalExamController.getInternalExamsByTeacher
+);
 
 module.exports = router;

@@ -68,7 +68,7 @@ const timetableSchema = new Schema(
       type: String,
       required: true,
     },
-    year: {
+    semester: {
       type: Number,
       required: true,
     },

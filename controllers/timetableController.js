@@ -3,11 +3,11 @@ const Timetable = require("../models/timetableModel");
 // Get complete schema
 exports.getTimetable = async (req, res) => {
   try {
-    const { departmentId, year } = req.query;
+    const { departmentId, semester } = req.query;
 
     const timetable = await Timetable.findOne({
       departmentId: { $regex: departmentId },
-      year: { $eq: parseInt(year) },
+      semester: { $eq: parseInt(semester) },
     });
     if (!timetable) {
       return res.status(404).json({ message: "Timetable not found" });
@@ -24,11 +24,11 @@ exports.getTimetable = async (req, res) => {
 exports.getTimetableForDay = async (req, res) => {
   try {
     const { day } = req.params;
-    const { departmentId, year } = req.query;
+    const { departmentId, semester } = req.query;
 
     const timetable = await Timetable.findOne({
       departmentId: { $regex: departmentId },
-      year: { $eq: parseInt(year) },
+      semester: { $eq: parseInt(semester) },
     });
 
     if (!timetable) {
@@ -62,11 +62,11 @@ exports.createTimetable = async (req, res) => {
 exports.updateTimetableForDay = async (req, res) => {
   try {
     const { day } = req.params;
-    const { departmentId, year } = req.query;
+    const { departmentId, semester } = req.query;
 
     const timetable = await Timetable.findOne({
       departmentId: { $regex: departmentId },
-      year: { $eq: parseInt(year) },
+      semester: { $eq: parseInt(semester) },
     });
     if (!timetable) {
       return res.status(404).json({ error: "Timetable not found" });

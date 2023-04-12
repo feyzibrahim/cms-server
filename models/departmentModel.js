@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const TeacherModel = require("./teacherModel");
 
 const Schema = mongoose.Schema;
 
@@ -31,7 +32,8 @@ const departmentSchema = new Schema(
       required: true,
     },
     hod: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
+      ref: TeacherModel,
     },
     teacher_count: {
       type: Number,

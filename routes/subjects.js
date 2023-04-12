@@ -11,6 +11,8 @@ router.get("/", subjectController.getSubjects);
 // Get a subject by ID
 router.get("/:id", subjectController.getSubjectById);
 
+router.get("/dep/:department", subjectController.getSubjectsByDepartment);
+
 // Update a subject by ID
 router.put("/:id", subjectController.updateSubject);
 

@@ -6,6 +6,7 @@ const {
   createStudent,
   deleteStudent,
   updateStudent,
+  getStudentsByYear,
 } = require("../controllers/studentController");
 
 const requireAuth = require("../middleware/requireAuth");
@@ -17,6 +18,8 @@ router.use(requireAuth);
 router.get("/", getStudents);
 
 router.get("/:id", getStudent);
+
+router.get("/year", getStudentsByYear);
 
 router.post("/", createStudent);
 

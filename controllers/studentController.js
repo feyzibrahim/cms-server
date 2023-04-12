@@ -4,16 +4,7 @@ const mongoose = require("mongoose");
 // Get All Student
 
 const getStudents = async (req, res) => {
-  const { departmentId, year, fromMob } = req.query;
-
-  if (fromMob) {
-    const students = await Student.find({
-      user_id: { $regex: fromMob },
-    });
-
-    res.status(200).json(students);
-    return;
-  }
+  const { departmentId, year } = req.query;
 
   if (departmentId && year) {
     const students = await Student.find({
@@ -21,12 +12,17 @@ const getStudents = async (req, res) => {
       year: { $eq: parseInt(year) },
     });
 
+    if (!students) {
+      res.status(404).json({ error: "No data found" });
+    }
+
     res.status(200).json(students);
-  } else {
-    const user_id = req.user._id;
-    const students = await Student.find({ user_id });
-    res.status(200).json(students);
+    return;
   }
+
+  const user_id = req.user._id;
+  const students = await Student.find({ user_id });
+  res.status(200).json(students);
 };
 
 // Get Single Student
@@ -111,6 +107,24 @@ const updateStudent = async (req, res) => {
   res.status(200).json(student);
 };
 
+const getStudentsByYear = async (req, res) => {
+  try {
+    const { departmentId, year } = req.query;
+
+    const students = await Student.find({ departmentId, year });
+
+    const studentData = students.map((student) => {
+      const { _id, student_name } = student;
+      return { _id, student_name };
+    });
+
+    res.status(200).json(studentData);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 // Exporting
 
 module.exports = {
@@ -119,4 +133,5 @@ module.exports = {
   createStudent,
   deleteStudent,
   updateStudent,
+  getStudentsByYear,
 };

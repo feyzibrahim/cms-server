@@ -8,6 +8,9 @@ router.get(
   assignmentController.getAssignmentsBySemester
 );
 
+//By teacher id
+router.get("/teacher/:teacher", assignmentController.getAssignmentsByTeacher);
+
 // Get a single assignment
 router.get("/:id", assignmentController.getAssignmentById);
 

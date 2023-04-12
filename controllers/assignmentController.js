@@ -29,6 +29,22 @@ exports.getAssignmentsBySemester = async (req, res, next) => {
   }
 };
 
+// Get all assignments in a teacherId
+exports.getAssignmentsByTeacher = async (req, res, next) => {
+  try {
+    const assignments = await Assignment.find({
+      teacher: req.params.teacher,
+    })
+      .populate("subject", "name")
+      .populate("semester")
+      .populate("teacher", "teacherName");
+
+    res.json(assignments);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Get a single assignment by ID
 exports.getAssignmentById = async (req, res) => {
   try {
