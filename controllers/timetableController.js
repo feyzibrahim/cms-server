@@ -103,3 +103,26 @@ exports.deleteTimetableForDay = async (req, res) => {
     return res.status(500).json({ error: "Server error" });
   }
 };
+
+exports.getPeriodsForTeacherOnDay = async (req, res) => {
+  const { teacherName, day } = req.params;
+
+  try {
+    const timetable = await Timetable.findOne({
+      days: { [day]: { $elemMatch: { teacherName: teacherName } } },
+    });
+
+    if (!timetable) {
+      return res.status(404).json({ message: "Timetable not found" });
+    }
+
+    const periods = timetable.days[day].filter(
+      (period) => period.teacherName === teacherName
+    );
+
+    return res.status(200).json(periods);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "Server error" });
+  }
+};

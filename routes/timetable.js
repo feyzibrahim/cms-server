@@ -16,4 +16,9 @@ router.put("/:day", timetableController.updateTimetableForDay);
 // DELETE /timetable/:day
 router.delete("/:day", timetableController.deleteTimetableForDay);
 
+router.get(
+  "/:teacherName/day/:day",
+  timetableController.getPeriodsForTeacherOnDay
+);
+
 module.exports = router;
